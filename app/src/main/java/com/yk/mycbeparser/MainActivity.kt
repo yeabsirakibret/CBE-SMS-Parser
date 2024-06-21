@@ -12,11 +12,12 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.yk.mycbeparser.databinding.ActivityMainBinding
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    var tag:String = "main_activity_log"
+    private var tag:String = "main_activity_log"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -35,23 +36,7 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-        parseSmsInbox(applicationContext)
-    }
-    private fun parseSmsInbox(context: Context) {
-        val uri = Uri.parse("content://sms/inbox")
-        val cursor: Cursor? = context.contentResolver.query(uri, null, null, null, null)
 
-        cursor?.use {
-            while (it.moveToNext()) {
-                val sender = it.getString(it.getColumnIndexOrThrow("address"))
-                val messageBody = it.getString(it.getColumnIndexOrThrow("body"))
-
-                if (sender == "CBE") {
-                    // Process the SMS message here
-                    Log.d(tag, "Received SMS from CBE: $messageBody")
-                    // You can perform further parsing or actions with messageBody
-                }
-            }
-        }
     }
+
 }
