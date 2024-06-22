@@ -5,11 +5,12 @@ import android.database.Cursor
 import android.net.Uri
 import android.util.Log
 import com.yk.mycbeparser.models.BankTransaction
-import org.json.JSONArray
-import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.util.regex.Pattern
+import java.util.regex.PatternSyntaxException
+
 
 class SmsParser {
     private var tag:String = "sms_parser_log"
@@ -42,13 +43,12 @@ class SmsParser {
                         transaction.date = dateFormat.format(Date(transaction.timestamp!!))
                         transaction.time = timeFormat.format(Date(transaction.timestamp!!))
 
-                        transaction.debitOrCredit = if (messageBody.toLowerCase().contains("debited")) "Debited" else "Credited"
+                        transaction.debitOrCredit = if (messageBody.toLowerCase().contains("debited")) "debit" else "credit"
                         // Assuming you have logic to extract amount and remaining balance from messageBody
-                        transaction.amount = extractAmount(messageBody)
-                        transaction.remainingBalance = extractRemainingBalance(messageBody)
+                        transaction.amount = extractAmounts(messageBody)[0]
+                        transaction.remainingBalance = extractAmounts(messageBody)[1]
                         transactions.add(transaction)
 
-                        Log.d(tag, "Received SMS from CBE: $messageBody")
 
                     }
                 }
@@ -61,14 +61,20 @@ class SmsParser {
         return transactions.toTypedArray()
     }
 
-    private fun extractAmount(messageBody: String): Double {
-        // Implement your logic to extract amount from message body
-        return 0.0 // Replace with actual logic
-    }
+    private fun extractAmounts(messageBody: String): MutableList<Double> {
+        val matchList: MutableList<Double> = ArrayList()
+        try {
+            val regex = Pattern.compile("ETB\\s([\\d,]+(\\.\\d+)?)")
+            val regexMatcher = regex.matcher(messageBody)
+            while (regexMatcher.find()) {
+                regexMatcher.group(1).toString().replace(",", "").toDoubleOrNull()
+                    ?.let { matchList.add(it) }
+            }
+        } catch (ex: PatternSyntaxException) {
+            // Syntax error in the regular expression
+        }
 
-    private fun extractRemainingBalance(messageBody: String): Double {
-        // Implement your logic to extract remaining balance from message body
-        return 0.0 // Replace with actual logic
+        return matchList
     }
 
 }
