@@ -9,9 +9,6 @@ A Kotlin Android app for parsing CBE SMS inbox and displaying a graph of maximum
 * Displays a bar chart of maximum remaining balance for each month
 * Uses `MPAndroidChart` library for charting
 
-## Screenshots
-
-![ScreenShot](/screenshots/graph.png)
 
 ## Technical Details
 
@@ -31,6 +28,13 @@ A Kotlin Android app for parsing CBE SMS inbox and displaying a graph of maximum
 * `com.github.mikephil.charting:charting-library:3.1.0` (MPAndroidChart)
 * `androidx.core:core-ktx:1.3.2` (AndroidX Core)
 
-## License
+## Screenshots
 
-TODO: Add license information
+Splash Screen
+![ScreenShot](/screenshots/splash_screen.jpg)
+
+Home Screen
+![ScreenShot](/screenshots/home.jpg)
+
+Graph Screen
+![ScreenShot](/screenshots/graph.jpg)
