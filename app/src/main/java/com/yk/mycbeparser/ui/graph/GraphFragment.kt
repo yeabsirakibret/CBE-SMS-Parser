@@ -46,7 +46,7 @@ class GraphFragment : Fragment() {
             for (i in transactionsArray.indices) {
                 var transaction = transactionsArray[i]
 
-                val transactionMonth = transaction.date?.substring(3, 10) ?: continue // Extract YYYY-MM from date
+                val transactionMonth = transaction.date?.substring(3, 10) ?: continue // Extract MM/yyyy from date
                 Log.i(tag, "${i}=>${transactionMonth}")
                 val currentAmount = transactionsByMonth[transactionMonth] ?: 0f
 

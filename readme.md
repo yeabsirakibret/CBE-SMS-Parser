@@ -11,7 +11,7 @@ A Kotlin Android app for parsing CBE SMS inbox and displaying a graph of maximum
 
 ## Screenshots
 
-TODO: Add screenshots of the app in action
+![ScreenShot](/screenshots/graph.png)
 
 ## Technical Details
 
